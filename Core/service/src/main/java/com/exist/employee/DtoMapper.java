@@ -24,7 +24,7 @@ public class DtoMapper {
 			employeeDto.setRoles(mapRoleSetDto(employee.getRoles()));
 		
 		} catch(Exception ex) {
-			return null;
+			ex.printStackTrace();
 		}
 		return employeeDto;
 	}

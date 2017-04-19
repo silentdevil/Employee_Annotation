@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import java.util.List; 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		EmployeeService empServ = new EmployeeService();
 		UpdateEmployeeScreen updateEmployeeScreen = new UpdateEmployeeScreen();
 		String order = "";

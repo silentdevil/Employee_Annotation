@@ -61,6 +61,7 @@ public class Employee {
 	@Cascade({CascadeType.ALL})
 	private Contact contact;
 	
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@JoinTable(name = "employee_role", 
