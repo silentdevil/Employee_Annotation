@@ -1,46 +1,34 @@
 package com.exist.employee;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.OneToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Cacheable;
+import javax.persistence.Embeddable;
+
 import org.hibernate.annotations.*;
 
-@Entity
-@Table(name = "addresses")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Embeddable
 public class Address {
-	@Id
-	@GeneratedValue
-   @Column(name = "addressid")
-   private long addressId;
-   private int streetno;
+	
+   @Column(name="street_no")
+   private int streetNo;
    private String street; 
-   private String brgy;    
+   private String brgy; 
+
    private String city;     
    private String zipcode; 
 
-   public long getAddressId() {
-      return addressId;
+   
+
+   public int getStreetNo() {
+      return streetNo;
    }
 
-   public void setAddressId(long addressId) {
-      this.addressId = addressId;
-   }
-
-   public int getStreetno() {
-      return streetno;
-   }
-
-   public void setStreetno(int streetno) {
-      this.streetno = streetno;
+   public void setStreetNo(int streetNo) {
+      this.streetNo = streetNo;
    }
 
    public String getStreet() {
@@ -70,7 +58,7 @@ public class Address {
    
    public String toString() {
 	   StringBuffer sb = new StringBuffer();
-		sb.append(streetno).append(" ");
+		sb.append(streetNo).append(" ");
 		sb.append(street).append(", ");
 		sb.append(brgy).append(", ");
 		sb.append(city).append(" " + zipcode);
@@ -84,14 +72,14 @@ public class Address {
 
          Address add2 = (Address) obj;
 
-         return this.streetno == add2.getStreetno() && this.street.equals(add2.getStreet()) && this.brgy.equals(add2.getBrgy())
+         return this.streetNo == add2.getStreetNo() && this.street.equals(add2.getStreet()) && this.brgy.equals(add2.getBrgy())
             && this.city.equals(add2.getCity());
          //return this.toString().equals(obj.toString());
    }
 
    @Override
    public int hashCode() {
-        return java.util.Objects.hash(streetno,street,brgy,city);
+        return java.util.Objects.hash(streetNo,street,brgy,city);
     }
    
 

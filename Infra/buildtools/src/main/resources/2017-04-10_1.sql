@@ -1,47 +1,49 @@
-CREATE DATABASE mydatabase;
 
+CREATE USER jim WITH PASSWORD 'ex1stgl0bal';
+ 
+CREATE DATABASE mydatabase OWNER jim;
+
+USE mydatabase;
+
+CREATE SEQUENCE hibernate_sequence;
 CREATE TABLE employees (
-	employeeid int primary key,
-	lastname varchar(30),
-	firstname varchar(30),
-	middlename varchar(30),
+	employee_id int primary key,
+
+	last_name varchar(30),
+	first_name varchar(30),
+	middle_name varchar(30),
 	suffix varchar(30),
 	title varchar(30),
-	address int,
-	birthday date,
-	gwa float,
-	datehired date,
-	currentlyhired boolean,
-	
-	FOREIGN KEY (address) REFERENCES addresses(addressid)
-);
-	
-CREATE TABLE addresses (
-	addressid int primary key,
-	streetno varchar(20),
+
+	street_no int,
 	street varchar(20),
 	brgy varchar(30),
 	city varchar(30),
-	zipcode varchar(10)
-	);
+	zipcode varchar(10),
+
+	birthday date,
+	gwa float,
+	date_hired date,
+	currently_hired boolean
+);
 	
 CREATE TABLE contacts (
-	employeeid int,
-	landline varchar(20),
-	mobile varchar(20),
-	email varchar(40),
-	foreign key (employeeid) references employees(employeeid)
-);
-
-CREATE TABLE employee_role (
-	employeeid int,
-	roleid int,
-	primary key(employeeid,roleid),
-	constraint fk_employeeid foreign key(employeeid) references employees(employeeid),
-	constraint fk_roleid foreign key(roleid) references roles(roleid)
+	employee_id int,
+	contact_type varchar(20),
+	contact varchar(20),
+	foreign key (employee_id) references employees(employee_id)
 );
 
 CREATE TABLE roles (
-	roleid int primary key,
+	role_id int primary key,
 	role varchar(20)
 );
+
+CREATE TABLE employee_role (
+	employee_id int,
+	role_id int,
+	primary key(employee_id,role_id),
+	constraint fk_employee_id foreign key(employee_id) references employees(employee_id),
+	constraint fk_role_id foreign key(role_id) references roles(role_id)
+);
+

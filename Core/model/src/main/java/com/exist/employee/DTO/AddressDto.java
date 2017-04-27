@@ -2,27 +2,20 @@ package com.exist.employee;
 
 public class AddressDto {
 
-   private long addressId;
-   private int streetno;
+   
+   private int streetNo;
    private String street; 
    private String brgy;    
    private String city;     
    private String zipcode; 
 
-   public long getAddressId() {
-      return addressId;
+  
+   public int getStreetNo() {
+      return streetNo;
    }
 
-   public void setAddressId(long addressId) {
-      this.addressId = addressId;
-   }
-
-   public int getStreetno() {
-      return streetno;
-   }
-
-   public void setStreetno(int streetno) {
-      this.streetno = streetno;
+   public void setStreetNo(int streetNo) {
+      this.streetNo = streetNo;
    }
 
    public String getStreet() {
@@ -52,7 +45,7 @@ public class AddressDto {
    
    public String toString() {
 	   StringBuffer sb = new StringBuffer();
-		sb.append(streetno).append(" ");
+		sb.append(streetNo).append(" ");
 		sb.append(street).append(", ");
 		sb.append(brgy).append(", ");
 		sb.append(city).append(" " + zipcode);
@@ -66,14 +59,14 @@ public class AddressDto {
 
          AddressDto add2 = (AddressDto) obj;
 
-         return this.streetno == add2.getStreetno() && this.street.equals(add2.getStreet()) && this.brgy.equals(add2.getBrgy())
+         return this.streetNo == add2.getStreetNo() && this.street.equals(add2.getStreet()) && this.brgy.equals(add2.getBrgy())
             && this.city.equals(add2.getCity());
          //return this.toString().equals(obj.toString());
    }
 
    @Override
    public int hashCode() {
-        return java.util.Objects.hash(streetno,street,brgy,city);
+        return java.util.Objects.hash(streetNo,street,brgy,city);
     }
    
 

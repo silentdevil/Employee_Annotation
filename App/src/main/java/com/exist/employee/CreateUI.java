@@ -71,6 +71,7 @@ public class CreateUI {
 		System.out.println("What role: ");
 		empService.getAllElements(Role.class).stream().filter(r ->!employee.getRoles().contains(mapper.mapRoleDto(r))).forEach(System.out::println);
 		RoleDto roleDto = mapper.mapRoleDto(empService.getElement(Role.class, Long.valueOf(InputManager.getPositiveNumber("ROLE","EMPTY_NOT_ALLOWED"))));
+		roleDto.getRole();
 		return roleDto;
 	}
 
@@ -81,7 +82,7 @@ public class CreateUI {
 			employee.setRoles(roles);
 			return employee;
 		} catch(Exception ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			throw new Exception("Can't find role");
 		}
 	}

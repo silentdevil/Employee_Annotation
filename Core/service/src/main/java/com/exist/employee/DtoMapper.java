@@ -5,22 +5,25 @@ import java.util.*;
 public class DtoMapper {
 
 	public EmployeeDto mapEmployeeDto(Employee employee) {
+		if(employee == null) {
+			return null;
+		}
 		EmployeeDto employeeDto = new EmployeeDto();
 		try {
 			employeeDto.setEmployeeId(employee.getEmployeeId());
-			employeeDto.setLastname(employee.getLastname());
-			employeeDto.setFirstname(employee.getFirstname());
-			employeeDto.setMiddlename(employee.getMiddlename());
+			employeeDto.setLastName(employee.getLastName());
+			employeeDto.setFirstName(employee.getFirstName());
+			employeeDto.setMiddleName(employee.getMiddleName());
 			employeeDto.setSuffix(employee.getSuffix());
 			employeeDto.setTitle(employee.getTitle());
 			employeeDto.setAddress(mapAddressDto(employee.getAddress()));
 			employeeDto.setBirthday(employee.getBirthday());
 			employeeDto.setGwa(employee.getGwa());
-			employeeDto.setDatehired(employee.getDatehired());
+			employeeDto.setDateHired(employee.getDateHired());
 			employeeDto.setCurrentlyHired(employee.getCurrentlyHired());
-			ContactDto contactDto = mapContactDto(employee.getContact());
-			contactDto.setEmployee(employeeDto);
-			employeeDto.setContact(contactDto);
+			//ContactDto contactDto = mapContactDto(employee.getContacts());
+			//contactDto.setEmployee(employeeDto);
+			//employeeDto.setContact(contactDto);
 			employeeDto.setRoles(mapRoleSetDto(employee.getRoles()));
 		
 		} catch(Exception ex) {
@@ -44,8 +47,8 @@ public class DtoMapper {
 	public  AddressDto mapAddressDto(Address address) {
 		AddressDto addressDto = new AddressDto();
 		try {
-			addressDto.setAddressId(address.getAddressId());
-			addressDto.setStreetno(address.getStreetno());
+			
+			addressDto.setStreetNo(address.getStreetNo());
 			addressDto.setStreet(address.getStreet());
 			addressDto.setBrgy(address.getBrgy());
 			addressDto.setCity(address.getCity());
@@ -59,10 +62,7 @@ public class DtoMapper {
 	public  ContactDto mapContactDto(Contact contact) {
 		ContactDto contactDto = new ContactDto();
 		try {
-			contactDto.setEmployeeId(contact.getEmployeeId());
-			contactDto.setLandline(contact.getLandline());
-			contactDto.setMobile(contact.getMobile());
-			contactDto.setEmail(contact.getEmail());
+			
 		} catch(Exception ex) {
 			System.out.println("Null contact passed");
 			return null;

@@ -7,9 +7,9 @@ import java.util.HashSet;
 public class EmployeeDto {
 	
 	private long employeeId;
-	private String lastname = "";
-	private String firstname = "";
-	private String middlename = "";
+	private String lastName = "";
+	private String firstName = "";
+	private String middleName = "";
 	private String suffix = "";
 	private String title = "";
 	private AddressDto address;
@@ -17,7 +17,7 @@ public class EmployeeDto {
 	private Date birthday;
 	private Float gwa;
 	
-	private Date datehired;
+	private Date dateHired;
 	private Boolean currentlyHired;
 	
 	private ContactDto contact;
@@ -32,28 +32,28 @@ public class EmployeeDto {
 		this.employeeId = employeeId;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getMiddlename() {
-		return middlename;
+	public String getMiddleName() {
+		return middleName;
 	}
 
-	public void setMiddlename(String middlename) {
-		this.middlename = middlename;
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 
 	public String getSuffix() {
@@ -96,12 +96,12 @@ public class EmployeeDto {
 		this.gwa = gwa;
 	}
 	
-	public Date getDatehired() {
-		return datehired;
+	public Date getDateHired() {
+		return dateHired;
 	}
 	
-	public void setDatehired(Date datehired) {
-		this.datehired = datehired;
+	public void setDateHired(Date dateHired) {
+		this.dateHired = dateHired;
 	}
 	
 	public Boolean getCurrentlyHired() {
@@ -129,9 +129,4 @@ public class EmployeeDto {
 	}
 	
 	
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(employeeId + "\t").append(lastname + "," + firstname + " " + middlename + " " + suffix);
-		return sb.toString();
-	}
 }

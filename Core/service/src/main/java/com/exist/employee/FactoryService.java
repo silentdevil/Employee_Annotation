@@ -9,20 +9,20 @@ public class FactoryService {
 		Employee employee = new Employee();
 		try {
 			employee.setEmployeeId(employeeDto.getEmployeeId());
-			employee.setLastname(employeeDto.getLastname());
-			employee.setFirstname(employeeDto.getFirstname());
-			employee.setMiddlename(employeeDto.getMiddlename());
+			employee.setLastName(employeeDto.getLastName());
+			employee.setFirstName(employeeDto.getFirstName());
+			employee.setMiddleName(employeeDto.getMiddleName());
 			employee.setSuffix(employeeDto.getSuffix());
 			employee.setTitle(employeeDto.getTitle());
 			employee.setAddress(createAddress(employeeDto.getAddress()));
 			employee.setBirthday(employeeDto.getBirthday());
 			employee.setGwa(employeeDto.getGwa());
-			employee.setDatehired(employeeDto.getDatehired());
+			employee.setDateHired(employeeDto.getDateHired());
 			employee.setCurrentlyHired(employeeDto.getCurrentlyHired());
-			Contact contact = createContact(employeeDto.getContact());
-			contact.setEmployeeId(employeeDto.getEmployeeId());
-			contact.setEmployee(employee);
-			employee.setContact(contact);
+			//Contact contact = createContact(employeeDto.getContact());
+			//contact.setEmployeeId(employeeDto.getEmployeeId());
+			//contact.setEmployee(employee);
+			//employee.setContact(contact);
 			employee.setRoles(createRoleSet(employeeDto.getRoles()));
 		
 		} catch(Exception ex) {
@@ -31,36 +31,23 @@ public class FactoryService {
 		return employee;
 	}
 	
-	public void updateDto(Object object) {
-		empService.updateElement(object);
-	}
-	
-	public void saveDto(Object object){
-		empService.saveElement(object);	
-	}
-	
 	public  Address createAddress(AddressDto addressDto) throws Exception {
 		Address address = new Address();
-		try {
-			address.setStreetno(addressDto.getStreetno());
+
+			address.setStreetNo(addressDto.getStreetNo());
 			address.setStreet(addressDto.getStreet());
 			address.setBrgy(addressDto.getBrgy());
 			address.setCity(addressDto.getCity());
 			address.setZipcode(addressDto.getZipcode());
-		
-			return empService.getElement(address);
-		} catch(Exception ex) {
-			empService.saveElement(address);
-			return empService.getElement(address);
-		}
+		return address;
 	}
 	
 	public  Contact createContact(ContactDto contactDto) throws Exception {
 			Contact contact = new Contact();
 			
-			contact.setLandline(contactDto.getLandline());
-			contact.setMobile(contactDto.getMobile());
-			contact.setEmail(contactDto.getEmail());
+			//contact.setLandline(contactDto.getLandline());
+			//contact.setMobile(contactDto.getMobile());
+			//contact.setEmail(contactDto.getEmail());
 			return contact;
 		
 	}

@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
 public class UpdateEmployeeScreen {
 	
 	DtoMapper mapper = new DtoMapper();
@@ -17,7 +18,7 @@ public class UpdateEmployeeScreen {
 
 			EmployeeDto employee = mapper.mapEmployeeDto(empService.getElement(Employee.class, 
 							Long.valueOf(InputManager.getPositiveNumber("Employee ID","EMPTY_NOT_ALLOWED"))));
-			
+			//employee.getAddress();
 			showEmployeeDetails(empService,employee);
 			OUTER:
 			while(true) {
@@ -52,7 +53,6 @@ public class UpdateEmployeeScreen {
 	public void showEmployeeDetails(EmployeeService empService, EmployeeDto employee) throws Exception {
 		try {
 			System.out.print("\033\143");
-			
 			System.out.printf("Name: %s, %s %s %s\n", employee.getLastname(), employee.getFirstname(), 
 				employee.getMiddlename(), employee.getSuffix());
 			
@@ -61,7 +61,7 @@ public class UpdateEmployeeScreen {
 			System.out.println("GWA: " + employee.getGwa());
 			System.out.println("Date hired: " + employee.getDatehired());
 			System.out.println("Currently hired: " + employee.getCurrentlyHired());
-			System.out.println("Contacts: " + employee.getContact());
+			System.out.println("Contacts: " + employee.getContacts());
 			System.out.println("Roles: " + employee.getRoles());
 		
 		} catch(Exception ex) {

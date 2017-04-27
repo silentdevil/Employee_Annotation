@@ -8,24 +8,23 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
-import javax.persistence.Transient;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.FetchType;
+import javax.persistence.Embedded;
+
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.HashSet;
 
 import javax.persistence.Cacheable;
 import org.hibernate.annotations.*;
-//import org.hibernate.cache.CacheConcurrencyStrategy;
+
 
 @Entity
 @Table(name = "employees")
@@ -35,18 +34,22 @@ public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	
-	@Column(name = "employeeid")
+	@Column(name = "employee_id")
 	private long employeeId;
 	
-	@Column(name = "lastname")
-	private String lastname = "";
-	private String firstname = "";
-	private String middlename = "";
-	private String suffix = "";
-	private String title = "";
-	@ManyToOne
-	@Cascade({CascadeType.SAVE_UPDATE})
-	@JoinColumn(name = "address")
+	@Column(name = "last_name")
+	private String lastName;
+
+	@Column(name = "first_name")
+	private String firstName;
+
+	@Column(name = "middle_name")
+	private String middleName;
+
+	private String suffix;
+	private String title;
+
+	@Embedded
 	private Address address;
 	
 	@Temporal(TemporalType.DATE)
@@ -54,19 +57,22 @@ public class Employee {
 	private Float gwa;
 	
 	@Temporal(TemporalType.DATE)
-	private Date datehired;
+	@Column(name = "date_hired")
+	private Date dateHired;
+
+	@Column(name = "currently_hired")
 	private Boolean currentlyHired;
 	
-	@OneToOne(mappedBy = "employee", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="employee",fetch=FetchType.EAGER)
 	@Cascade({CascadeType.ALL})
-	private Contact contact;
+	private Set<Contact> contacts;
 	
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@ManyToMany(fetch=FetchType.EAGER)
 	@Cascade({CascadeType.SAVE_UPDATE})
 	@JoinTable(name = "employee_role", 
-	joinColumns = { @JoinColumn(name = "employeeid")}, 
-		inverseJoinColumns = { @JoinColumn(name = "roleid")})
+		joinColumns = { @JoinColumn(name = "employee_id")}, 
+			inverseJoinColumns = { @JoinColumn(name = "role_id")})
 	private Set<Role> roles = new HashSet<>();
 
 	public long getEmployeeId() {
@@ -77,28 +83,28 @@ public class Employee {
 		this.employeeId = employeeId;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getFirstname() {
-		return firstname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getMiddlename() {
-		return middlename;
+	public String getMiddleName() {
+		return middleName;
 	}
 
-	public void setMiddlename(String middlename) {
-		this.middlename = middlename;
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 
 	public String getSuffix() {
@@ -141,12 +147,12 @@ public class Employee {
 		this.gwa = gwa;
 	}
 	
-	public Date getDatehired() {
-		return datehired;
+	public Date getDateHired() {
+		return dateHired;
 	}
 	
-	public void setDatehired(Date datehired) {
-		this.datehired = datehired;
+	public void setDateHired(Date dateHired) {
+		this.dateHired = dateHired;
 	}
 	
 	public Boolean getCurrentlyHired() {
@@ -157,12 +163,12 @@ public class Employee {
 		this.currentlyHired = currentlyHired;
 	}
 	
-	public Contact getContact() {
-		return contact;
+	public Set<Contact> getContact() {
+		return contacts;
 	}
 	
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setContact(Set<Contact> contactss) {
+		this.contacts = contacts;
 	}
 	
 	public Set<Role> getRoles() {
@@ -185,7 +191,7 @@ public class Employee {
 	
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(employeeId + "\t").append(lastname + "," + firstname + " " + middlename + " " + suffix);
+		sb.append(employeeId + "\t").append(lastName + "," + firstName + " " + middleName + " " + suffix);
 		return sb.toString();
 	}
 }

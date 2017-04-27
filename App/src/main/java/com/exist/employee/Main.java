@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		EmployeeService empServ = new EmployeeService();
+
 		UpdateEmployeeScreen updateEmployeeScreen = new UpdateEmployeeScreen();
 		String order = "";
 		List<Employee> list = empServ.getAllElements(Employee.class);
@@ -53,9 +54,10 @@ public class Main {
 						break OUTER;
 					default:
 						consumer = System.out::println;
+						list = empServ.getAllElements(Employee.class);
 				}
 			} catch (Exception ex) {
-				InputManager.output(ex.toString());
+				InputManager.output("Can't find employee");
 			}
 		}
 	}
