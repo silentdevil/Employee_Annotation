@@ -22,6 +22,14 @@
 	    </dependency>
 	</dependencies>
   </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.exist.employee</groupId>
+      <artifactId>Utility</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
   
 
   <modules>

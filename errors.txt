@@ -1,0 +1,9 @@
+java.lang.Exception: Cannot create employee
+	at com.exist.employee.CreateUI.createEmployee(CreateUI.java:42)
+	at com.exist.employee.Main.main(Main.java:40)
+java.lang.Exception: Cannot create employee
+	at com.exist.employee.CreateUI.createEmployee(CreateUI.java:42)
+	at com.exist.employee.Main.main(Main.java:55)
+java.lang.Exception: Cannot create employee
+	at com.exist.employee.CreateUI.createEmployee(CreateUI.java:42)
+	at com.exist.employee.Main.main(Main.java:55)

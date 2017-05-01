@@ -3,7 +3,8 @@ CREATE USER jim WITH PASSWORD 'ex1stgl0bal';
  
 CREATE DATABASE mydatabase OWNER jim;
 
-USE mydatabase;
+\c mydatabase;
+
 
 CREATE SEQUENCE hibernate_sequence;
 CREATE TABLE employees (
@@ -28,9 +29,10 @@ CREATE TABLE employees (
 );
 	
 CREATE TABLE contacts (
+	contact_id int,
 	employee_id int,
-	contact_type varchar(20),
-	contact varchar(20),
+	contact_type varchar(60),
+	contact_info varchar(60),
 	foreign key (employee_id) references employees(employee_id)
 );
 
@@ -46,4 +48,11 @@ CREATE TABLE employee_role (
 	constraint fk_employee_id foreign key(employee_id) references employees(employee_id),
 	constraint fk_role_id foreign key(role_id) references roles(role_id)
 );
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON ALL TABLES IN SCHEMA public 
+TO jim;
+
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO jim;
+
 

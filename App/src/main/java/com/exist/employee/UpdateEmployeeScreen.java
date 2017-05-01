@@ -1,4 +1,5 @@
 package com.exist.employee;
+
 import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
@@ -7,41 +8,53 @@ import java.util.stream.Collectors;
 
 public class UpdateEmployeeScreen {
 	
-	DtoMapper mapper = new DtoMapper();
-	FactoryService factoryService = new FactoryService();
 	
-	public  void updateEmployee(EmployeeService empService) throws Exception {
+	CreateUI createUI = new CreateUI();
+
+	FactoryService factoryService = createUI.getFactoryService();
+
+
+	
+	EmployeeService empService = factoryService.getEmployeeService();
+	DtoMapper mapper = factoryService.getMapper();
+
+	public CreateUI getCreateUI() {
+		return createUI;
+	}
+
+	public  void updateEmployee() throws Exception {
 		System.out.print("\033\143\n");
 		System.out.println("Edit Employee! Input the ID\n");
 		try {
-			empService.getAllElements(Employee.class).forEach(System.out::println);
+			empService.getAllEmployees().forEach(System.out::println);
 
 			EmployeeDto employee = mapper.mapEmployeeDto(empService.getElement(Employee.class, 
 							Long.valueOf(InputManager.getPositiveNumber("Employee ID","EMPTY_NOT_ALLOWED"))));
 			//employee.getAddress();
-			showEmployeeDetails(empService,employee);
+			showEmployeeDetails(employee);
 			OUTER:
 			while(true) {
 
 				String cmd = InputManager.enterString("Action: ADDROLE, DELROLE, ADDCONTACT, DELCONTACT, BACK", "EMPTY_NOT_ALLOWED");
 					switch(cmd) {
 						case "ADDROLE":
-							employee = CreateUI.addEmployeeRole(employee);
+							employee = createUI.addEmployeeRole(employee);
 							break;
 						case "DELROLE":
-							employee = CreateUI.deleteEmployeeRole(employee);
+							employee = createUI.deleteEmployeeRole(employee);
 							break;
 						case "ADDCONTACT":
-							employee = CreateUI.addEmployeeContact(empService,employee,"");
+							employee = createUI.addEmployeeContact(employee);
 							break;
 						case "DELCONTACT":
-							employee = CreateUI.addEmployeeContact(empService,employee,"DEL");
+							employee = createUI.delEmployeeContact(employee);
+							break;
 						case "BACK":
 							return;
 					}
 
-				factoryService.updateDto(factoryService.createEmployee(employee));
-				showEmployeeDetails(empService,employee);
+				empService.updateElement(factoryService.createEmployee(employee));
+				showEmployeeDetails(employee);
 			}
 		} catch(Exception ex) {
 			System.out.println(ex.getMessage());
@@ -50,18 +63,18 @@ public class UpdateEmployeeScreen {
 		}	
 	}
 	
-	public void showEmployeeDetails(EmployeeService empService, EmployeeDto employee) throws Exception {
+	public void showEmployeeDetails(EmployeeDto employee) throws Exception {
 		try {
 			System.out.print("\033\143");
-			System.out.printf("Name: %s, %s %s %s\n", employee.getLastname(), employee.getFirstname(), 
-				employee.getMiddlename(), employee.getSuffix());
+			System.out.println(employee.getEmployeeName());
 			
 			System.out.println("Address: " + employee.getAddress());
 			System.out.println("Birthday: " + employee.getBirthday());
 			System.out.println("GWA: " + employee.getGwa());
-			System.out.println("Date hired: " + employee.getDatehired());
+			System.out.println("Date hired: " + employee.getDateHired());
 			System.out.println("Currently hired: " + employee.getCurrentlyHired());
-			System.out.println("Contacts: " + employee.getContacts());
+			System.out.println("Contacts: ");
+				employee.getContacts().forEach(c -> System.out.println("\t" + c));
 			System.out.println("Roles: " + employee.getRoles());
 		
 		} catch(Exception ex) {
@@ -69,23 +82,23 @@ public class UpdateEmployeeScreen {
 		}
 	}
 
-	public void roleScreen(EmployeeService empService) throws Exception {
+	public void roleScreen() throws Exception {
 		System.out.print("\033\143");
 
 		OUTER:
 		while(true) {
 			System.out.print("\033\143");
-			empService.getAllElements(Role.class).forEach(System.out::println);
+			empService.getAllRoles().forEach(System.out::println);
 
 			System.out.println("\nWHAT TO DO [ADDROLE,DELETEROLE,BACK]");
 			String action = InputManager.enterString("Action","EMPTY_NOT_ALLOWED");
 
 			switch(action.toUpperCase()) {
 				case "ADDROLE":
-					CreateUI.createRole(empService);
+					createUI.createRole(empService);
 					break;
 				case "DELETEROLE":
-					CreateUI.deleteRole(empService);
+					createUI.deleteRole(empService);
 					break;
 				case "BACK": 
 					break OUTER;

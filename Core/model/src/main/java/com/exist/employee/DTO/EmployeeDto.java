@@ -2,16 +2,12 @@ package com.exist.employee;
 import java.util.Date;
 import java.util.Set;
 import java.util.HashSet;
-
+import java.util.List;
 
 public class EmployeeDto {
 	
 	private long employeeId;
-	private String lastName = "";
-	private String firstName = "";
-	private String middleName = "";
-	private String suffix = "";
-	private String title = "";
+	private NameDto employeeName;
 	private AddressDto address;
 	
 	private Date birthday;
@@ -20,7 +16,7 @@ public class EmployeeDto {
 	private Date dateHired;
 	private Boolean currentlyHired;
 	
-	private ContactDto contact;
+	private Set<ContactDto> contacts;
 
 	private Set<RoleDto> roles = new HashSet<>();
 
@@ -32,44 +28,12 @@ public class EmployeeDto {
 		this.employeeId = employeeId;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public NameDto getEmployeeName(){
+		return employeeName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public String getSuffix() {
-		return suffix;
-	}
-
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
+	public void setEmployeeName(NameDto employeeName){
+		this.employeeName = employeeName;
 	}
 
 	public AddressDto getAddress() {
@@ -112,12 +76,12 @@ public class EmployeeDto {
 		this.currentlyHired = currentlyHired;
 	}
 	
-	public ContactDto getContact() {
-		return contact;
+	public Set<ContactDto> getContacts() {
+		return contacts;
 	}
 	
-	public void setContact(ContactDto contact) {
-		this.contact = contact;
+	public void setContacts(Set<ContactDto> contacts) {
+		this.contacts = contacts;
 	}
 	
 	public Set<RoleDto> getRoles() {

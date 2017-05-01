@@ -1,9 +1,9 @@
 
-INSERT INTO roles(roleid, role) VALUES (1,'CEO');
-INSERT INTO roles(roleid, role) VALUES (2,'VICE PRESIDENT');
-INSERT INTO roles(roleid, role) VALUES (3,'DEVELOPER');
-INSERT INTO roles(roleid, role) VALUES (4,'DESIGNER');
-INSERT INTO roles(roleid, role) VALUES (5,'BA');
+INSERT INTO roles(role_id, role) VALUES (1,'CEO');
+INSERT INTO roles(role_id, role) VALUES (2,'VICE PRESIDENT');
+INSERT INTO roles(rolei_d, role) VALUES (3,'DEVELOPER');
+INSERT INTO roles(role_id, role) VALUES (4,'DESIGNER');
+INSERT INTO roles(role_id, role) VALUES (5,'BA');
 
 
 INSERT INTO ADDRESSES(addressid,streetno, street, brgy, city, zipcode) 

@@ -1,14 +1,14 @@
 package com.exist.employee;
 
-public class ContactDto {
+public class ContactDto implements Comparable<ContactDto>{
 	
 
 	private long employeeId;
 	
 	private EmployeeDto employee;
-	private String landline;
-	private String mobile;
-	private String email;
+	private String contactType;
+	private String contactInfo;
+	
 	
 	public long getEmployeeId() {
 		return employeeId;
@@ -25,54 +25,30 @@ public class ContactDto {
 	public void setEmployee(EmployeeDto employee) {
 		this.employee = employee;
 	}
-	
-	public String getLandline() {
-		return landline;
+
+	public String getContactType(){
+		return contactType;
+	}
+
+	public void setContactType(String contactType){
+		this.contactType = contactType;
+	}
+
+	public String getContactInfo(){
+		return contactInfo;
+	}
+
+	public void setContactInfo(String contactInfo){
+		this.contactInfo = contactInfo;
 	}
 	
-	public void setLandline(String landline) {
-		this.landline = landline;
-	}
-	
-	public String getMobile() {
-		return mobile;
-	}
-	
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	
 	public String toString() {
-	   StringBuffer sb = new StringBuffer();
-		sb.append("Landline:  ").append(landline);
-		sb.append(" Mobile: ").append(mobile);
-		sb.append(" Email : ").append(email);
-		return sb.toString();
+	   return contactType + " : " + contactInfo;
 	}
 
-	@Override
-   public boolean equals(Object obj) {
-       if(obj == null || getClass() != obj.getClass())
-         return false;
-
-        ContactDto add2 = (ContactDto) obj;
-
-         return this.landline.equals(add2.getLandline()) && 
-         		this.mobile.equals(add2.getMobile()) && this.email.equals(add2.getEmail());
-        
-   }
-
-   @Override
-   public int hashCode() {
-        return java.util.Objects.hash(landline,mobile,email);
-    }
+	public int compareTo(ContactDto cto) {
+		return (contactType.compareTo(cto.getContactType()));
+	}
 
 }

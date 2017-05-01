@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import java.util.List;
 
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -37,17 +38,8 @@ public class Employee {
 	@Column(name = "employee_id")
 	private long employeeId;
 	
-	@Column(name = "last_name")
-	private String lastName;
-
-	@Column(name = "first_name")
-	private String firstName;
-
-	@Column(name = "middle_name")
-	private String middleName;
-
-	private String suffix;
-	private String title;
+	@Embedded
+	private Name employeeName;
 
 	@Embedded
 	private Address address;
@@ -83,7 +75,15 @@ public class Employee {
 		this.employeeId = employeeId;
 	}
 
-	public String getLastName() {
+	public Name getEmployeeName(){
+		return employeeName;
+	}
+
+	public void setEmployeeName(Name employeeName){
+		this.employeeName = employeeName;
+	}
+
+	/*public String getLastName() {
 		return lastName;
 	}
 
@@ -121,7 +121,7 @@ public class Employee {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
+	}*/
 
 	public Address getAddress() {
 		return address;
@@ -163,11 +163,11 @@ public class Employee {
 		this.currentlyHired = currentlyHired;
 	}
 	
-	public Set<Contact> getContact() {
+	public Set<Contact> getContacts() {
 		return contacts;
 	}
 	
-	public void setContact(Set<Contact> contactss) {
+	public void setContacts(Set<Contact> contacts) {
 		this.contacts = contacts;
 	}
 	
@@ -191,7 +191,7 @@ public class Employee {
 	
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(employeeId + "\t").append(lastName + "," + firstName + " " + middleName + " " + suffix);
+		sb.append(employeeId + "\t").append(employeeName);
 		return sb.toString();
 	}
 }

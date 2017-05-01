@@ -9,21 +9,27 @@ public class DtoMapper {
 			return null;
 		}
 		EmployeeDto employeeDto = new EmployeeDto();
+		NameDto employeeName = new NameDto();
+		Name empName = employee.getEmployeeName();
 		try {
 			employeeDto.setEmployeeId(employee.getEmployeeId());
-			employeeDto.setLastName(employee.getLastName());
-			employeeDto.setFirstName(employee.getFirstName());
-			employeeDto.setMiddleName(employee.getMiddleName());
-			employeeDto.setSuffix(employee.getSuffix());
-			employeeDto.setTitle(employee.getTitle());
+			employeeName.setLastName(empName.getLastName());
+			employeeName.setFirstName(empName.getFirstName());
+			employeeName.setMiddleName(empName.getMiddleName());
+			employeeName.setSuffix(empName.getSuffix());
+			employeeName.setTitle(empName.getTitle());
+			employeeDto.setEmployeeName(employeeName);
+			//System.out.println("printed from DtoMapper:22" + employeeDto.getEmployeeName());
 			employeeDto.setAddress(mapAddressDto(employee.getAddress()));
 			employeeDto.setBirthday(employee.getBirthday());
 			employeeDto.setGwa(employee.getGwa());
 			employeeDto.setDateHired(employee.getDateHired());
 			employeeDto.setCurrentlyHired(employee.getCurrentlyHired());
-			//ContactDto contactDto = mapContactDto(employee.getContacts());
-			//contactDto.setEmployee(employeeDto);
-			//employeeDto.setContact(contactDto);
+			//System.out.println(employee.getContacts());
+			//System.out.println("Printed from mapEmployeeDto-line25");
+			Set<ContactDto> contactDto = mapContactDto(employee, employeeDto);
+
+			employeeDto.setContacts(contactDto);
 			employeeDto.setRoles(mapRoleSetDto(employee.getRoles()));
 		
 		} catch(Exception ex) {
@@ -59,15 +65,26 @@ public class DtoMapper {
 		return addressDto;
 	}
 	
-	public  ContactDto mapContactDto(Contact contact) {
-		ContactDto contactDto = new ContactDto();
+	public Set<ContactDto> mapContactDto(Employee employee, EmployeeDto employeeDto) {
+		Set<ContactDto> contacts = new TreeSet<>();
+		if(employee.getContacts() == null) {
+			employee.setContacts(new TreeSet<>());
+		}
 		try {
-			
+			employee.getContacts().forEach( c -> {
+				ContactDto contact = new ContactDto();
+				contact.setEmployee(employeeDto);
+				contact.setContactType(c.getContactType());
+				contact.setContactInfo(c.getContactInfo());
+				contacts.add(contact);
+			});
 		} catch(Exception ex) {
 			System.out.println("Null contact passed");
+			ex.printStackTrace();
 			return null;
 		}
-			return contactDto;
+			employeeDto.setContacts(contacts);
+			return contacts;
 		
 	}
 	
@@ -77,8 +94,6 @@ public class DtoMapper {
 		try {
 			roleDto.setRoleId(role.getRoleId());
 			roleDto.setRole(role.getRole());
-			//role.getEmployees();
-			//roleDto.setEmployees(mapEmployeeSetDto(role.getEmployees()));
 		} catch (Exception ex) {
 			System.out.println("Null role passed");
 			ex.printStackTrace();

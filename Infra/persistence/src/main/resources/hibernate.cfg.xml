@@ -16,6 +16,8 @@
 		
 		<property name="cache.use_second_level_cache">true</property>
 		<property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+		<property name="hibernate.generate_statistics">true</property>
+        <property name="hibernate.cache.generate_statistics">true</property>
 
 		<property name="show_sql">true</property>
 	
@@ -23,6 +25,7 @@
 		<mapping class="com.exist.employee.Role"/>
 		<mapping class="com.exist.employee.Address"/>
 		<mapping class="com.exist.employee.Contact"/>
+		<mapping class="com.exist.employee.Name"/>
 
 	</session-factory>
 
