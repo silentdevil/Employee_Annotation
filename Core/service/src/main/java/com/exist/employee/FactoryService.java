@@ -2,8 +2,13 @@ package com.exist.employee;
 import java.util.*;
 public class FactoryService {
 
-	private EmployeeService empService = new EmployeeService();
-	private DtoMapper mapper = new DtoMapper();
+	private EmployeeService empService;
+	private DtoMapper mapper;
+
+	public FactoryService(EmployeeService empService, DtoMapper mapper){
+		this.empService = empService;
+		this.mapper = mapper;
+	}
 
 	public EmployeeService getEmployeeService() {
 		return empService;
@@ -28,19 +33,14 @@ public class FactoryService {
 			employeeName.setSuffix(nameDto.getSuffix());
 			employeeName.setTitle(nameDto.getTitle());
 			employee.setEmployeeName(employeeName);
-			System.out.println("printed from getEmployeeName:FactoryService:27"+employee.getEmployeeName());
 			employee.setAddress(createAddress(employeeDto.getAddress()));
 			employee.setBirthday(employeeDto.getBirthday());
 			employee.setGwa(employeeDto.getGwa());
 			employee.setDateHired(employeeDto.getDateHired());
 			employee.setCurrentlyHired(employeeDto.getCurrentlyHired());
 			Set<Contact> contacts = createContacts(employeeDto, employee);
-
-			
-			System.out.println("employee contacts");
 			System.out.println(contacts);
 			employee.setContacts(contacts);
-			System.out.println("printed from getContacts" + employee.getContacts());
 			employee.setRoles(createRoleSet(employeeDto.getRoles()));
 		
 		} catch(Exception ex) {
@@ -66,13 +66,13 @@ public class FactoryService {
 			contacts = new TreeSet<>();
 		System.out.println("printed from FactoryService.createContacts" + employeeDto.getContacts());
 		try {
-			employeeDto.getContacts().forEach( c -> {
+			for(ContactDto c: employeeDto.getContacts()) {
 				Contact contact = new Contact();
 				contact.setEmployee(employee);
 				contact.setContactType(c.getContactType());
 				contact.setContactInfo(c.getContactInfo());
 				contacts.add(contact);
-			});
+			}
 		} catch(Exception ex) {
 			System.out.println("Null contact passed");
 			ex.printStackTrace();

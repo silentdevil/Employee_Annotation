@@ -2,19 +2,19 @@ package com.exist.employee;
 import java.util.*;
 public class CreateUI {
 
-	//private EmployeeService empService = new EmployeeService();
-	
-	//private DtoMapper mapper = new DtoMapper();
-	
-	private FactoryService factoryService = new FactoryService();
+	private FactoryService factoryService;
+	private EmployeeService empService;
+	private DtoMapper mapper;
+
+	public CreateUI(FactoryService factoryService) {
+		this.factoryService = factoryService;
+		empService = factoryService.getEmployeeService();
+		mapper = factoryService.getMapper();
+	}
 
 	public FactoryService getFactoryService() {
 		return factoryService;
 	}
-
-	EmployeeService empService = factoryService.getEmployeeService();
-	DtoMapper mapper = factoryService.getMapper();
-
 
 	public void createEmployee() throws Exception {
 		System.out.print("\033\143");
@@ -98,7 +98,7 @@ public class CreateUI {
 
 			contact.setContactType(ContactType.valueOf(choice).getMessage());
 			contact.setContactInfo(string);
-			if(contact.getContactInfo() != null)
+			if(contact.getContactInfo() != null && !contact.getContactInfo().isEmpty())
 				contacts.add(contact);
 
 			return contacts;
@@ -120,7 +120,6 @@ public class CreateUI {
 			employee.setRoles(roles);
 			return employee;
 		} catch(Exception ex) {
-			//ex.printStackTrace();
 			throw new Exception("Can't find role");
 		}
 	}
@@ -151,8 +150,8 @@ public class CreateUI {
 
 		int index = InputManager.getPositiveNumber("ID of Contact","");
 		try {
+			contacts.remove(mapper.mapContactSingle(empService.getContactById(Long.valueOf(index)),employee));
 			empService.deleteElement(empService.getContactById(Long.valueOf(index)));
-			//contacts.remove(contacts.get(index));
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			System.err.println("index not found");

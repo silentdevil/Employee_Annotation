@@ -11,38 +11,20 @@ public class Main {
 
 	public static Logger logger = LoggerFactory.getLogger("org.hibernate");
 	public static void main(String[] args) throws Exception {
+
 	
-		/*UpdateEmployeeScreen updateEmployeeScreen = new UpdateEmployeeScreen();
+		UpdateEmployeeScreen updateEmployeeScreen = new UpdateEmployeeScreen(new CreateUI(
+			new FactoryService(new EmployeeService(), new DtoMapper())));
+
 		CreateUI createUI = updateEmployeeScreen.getCreateUI();
 		EmployeeService empServ = createUI.getFactoryService().getEmployeeService();
-
-		Employee emp = empServ.findEmployeeById(1L);
-
-		List<Contact> contacts = new ArrayList<>();
-		Contact contact = new Contact();
-		contact.setEmployee(emp);
-		contact.setContactType("EMAIL");
-		contact.setContactInfo("jimmikaelcarpio@gmail.com");
 		
-		empServ.saveElement(contact);
-		emp.setContacts(contacts);
-		empServ.updateElement(emp);*/
-	
-	//PropertyConfigurator.configure("D:\\JAVA\\Employee_Annotation\\App\\src\\main\\resources\\log4j.properties");
-	//java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
-	
-		
-		UpdateEmployeeScreen updateEmployeeScreen = new UpdateEmployeeScreen();
-		CreateUI createUI = updateEmployeeScreen.getCreateUI();
-		EmployeeService empServ = createUI.getFactoryService().getEmployeeService();
-
-		//List<Employee> list = empServ.getAllEmployees();
+		System.out.println(empServ.getRoleById(1L).getEmployees());
 		String order = "";
 		List<Employee> list = empServ.getAllEmployees();
 		Consumer<Employee> consumer = System.out::println;
 		OUTER:
 		while(true) {
-			//System.out.print("\033\143\n\n");
 			
 			list.forEach(consumer);
 			String cmd = InputManager.enterString("Action: ADDEMP, DELEMP, EDITEMP, MODIFYROLES\n SORT_GWA, SORT_HIREDATE, SORT_LASTNAME",
@@ -66,15 +48,15 @@ public class Main {
 						updateEmployeeScreen.roleScreen();
 						break;
 					case "SORT_GWA":
-						list = empServ.getAllEmployees();
+						list = empServ.getAllEmployees("gwa");
 						consumer = emp -> System.out.printf("%d\t%s %.2f\n",emp.getEmployeeId(),emp.getEmployeeName().toString(),emp.getGwa());
 						break;
 					case "SORT_HIREDATE":
-						list = empServ.getAllEmployees();
+						list = empServ.getAllEmployees("date_hired");
 						consumer = emp -> System.out.printf("%d\t%s %s\n",emp.getEmployeeId(),emp.getEmployeeName().toString(),emp.getDateHired());
 						break;
 					case "SORT_LASTNAME":
-						list = empServ.getAllEmployees();
+						list = empServ.getAllEmployees("last_name");
 						consumer = emp -> System.out.printf("%d\t%s\n",emp.getEmployeeId(),emp.getEmployeeName().toString());
 						break;
 					case "EXIT":

@@ -27,14 +27,14 @@ public class Role {
 	
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id")
 	private long roleId;
 	private String role;
 	
 
 	@Cascade({CascadeType.ALL})
-	@ManyToMany(mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
 	private Set<Employee> employees = new HashSet<>();
 	
 	public Role() {

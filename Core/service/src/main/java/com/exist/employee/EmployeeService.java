@@ -23,6 +23,10 @@ public class EmployeeService {
 		return dao.getAll(Employee.class);
 	}
 
+	public List<Employee> getAllEmployees(String order){
+		return dao.getAll(Employee.class,order);
+	}
+
 	public List<Role> getAllRoles() {
 		return dao.getAll(Role.class);
 	}
@@ -63,10 +67,6 @@ public class EmployeeService {
 	public <E> void updateElement(E e) {
 		dao.update(e);
 	}
-
-
-
-
 
 
 /*

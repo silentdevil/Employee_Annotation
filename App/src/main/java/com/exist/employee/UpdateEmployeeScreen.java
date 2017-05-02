@@ -9,14 +9,18 @@ import java.util.stream.Collectors;
 public class UpdateEmployeeScreen {
 	
 	
-	CreateUI createUI = new CreateUI();
+	private CreateUI createUI;
+	private FactoryService factoryService;
+	private EmployeeService empService;
+	private DtoMapper mapper;
 
-	FactoryService factoryService = createUI.getFactoryService();
 
-
-	
-	EmployeeService empService = factoryService.getEmployeeService();
-	DtoMapper mapper = factoryService.getMapper();
+	public UpdateEmployeeScreen(CreateUI createUI) {
+		this.createUI = createUI;
+		factoryService = createUI.getFactoryService();
+		empService = factoryService.getEmployeeService();
+		mapper = factoryService.getMapper();
+	}
 
 	public CreateUI getCreateUI() {
 		return createUI;
@@ -30,7 +34,6 @@ public class UpdateEmployeeScreen {
 
 			EmployeeDto employee = mapper.mapEmployeeDto(empService.getElement(Employee.class, 
 							Long.valueOf(InputManager.getPositiveNumber("Employee ID","EMPTY_NOT_ALLOWED"))));
-			//employee.getAddress();
 			showEmployeeDetails(employee);
 			OUTER:
 			while(true) {

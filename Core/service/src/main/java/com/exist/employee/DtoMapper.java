@@ -19,14 +19,11 @@ public class DtoMapper {
 			employeeName.setSuffix(empName.getSuffix());
 			employeeName.setTitle(empName.getTitle());
 			employeeDto.setEmployeeName(employeeName);
-			//System.out.println("printed from DtoMapper:22" + employeeDto.getEmployeeName());
 			employeeDto.setAddress(mapAddressDto(employee.getAddress()));
 			employeeDto.setBirthday(employee.getBirthday());
 			employeeDto.setGwa(employee.getGwa());
 			employeeDto.setDateHired(employee.getDateHired());
 			employeeDto.setCurrentlyHired(employee.getCurrentlyHired());
-			//System.out.println(employee.getContacts());
-			//System.out.println("Printed from mapEmployeeDto-line25");
 			Set<ContactDto> contactDto = mapContactDto(employee, employeeDto);
 
 			employeeDto.setContacts(contactDto);
@@ -64,6 +61,15 @@ public class DtoMapper {
 		}
 		return addressDto;
 	}
+
+	public ContactDto mapContactSingle(Contact c, EmployeeDto employee){
+		ContactDto contact = new ContactDto();
+		contact.setContactId(c.getContactId());
+		contact.setEmployee(employee);
+		contact.setContactType(c.getContactType());
+		contact.setContactInfo(c.getContactInfo());
+		return contact;
+	}
 	
 	public Set<ContactDto> mapContactDto(Employee employee, EmployeeDto employeeDto) {
 		Set<ContactDto> contacts = new TreeSet<>();
@@ -71,21 +77,14 @@ public class DtoMapper {
 			employee.setContacts(new TreeSet<>());
 		}
 		try {
-			employee.getContacts().forEach( c -> {
-				ContactDto contact = new ContactDto();
-				contact.setEmployee(employeeDto);
-				contact.setContactType(c.getContactType());
-				contact.setContactInfo(c.getContactInfo());
-				contacts.add(contact);
-			});
+			employee.getContacts().forEach( c -> contacts.add(mapContactSingle(c,employeeDto)));
 		} catch(Exception ex) {
 			System.out.println("Null contact passed");
 			ex.printStackTrace();
 			return null;
 		}
 			employeeDto.setContacts(contacts);
-			return contacts;
-		
+			return contacts;	
 	}
 	
 	public RoleDto mapRoleDto(Role role) {
@@ -101,9 +100,5 @@ public class DtoMapper {
 		}
 			return roleDto;
 	}
-	
-	
-	
-	
 
 }

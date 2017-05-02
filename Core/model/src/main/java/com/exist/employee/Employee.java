@@ -33,7 +33,7 @@ import org.hibernate.annotations.*;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	@Column(name = "employee_id")
 	private long employeeId;
@@ -55,6 +55,7 @@ public class Employee {
 	@Column(name = "currently_hired")
 	private Boolean currentlyHired;
 	
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@OneToMany(mappedBy="employee",fetch=FetchType.EAGER)
 	@Cascade({CascadeType.ALL})
 	private Set<Contact> contacts;
@@ -82,46 +83,6 @@ public class Employee {
 	public void setEmployeeName(Name employeeName){
 		this.employeeName = employeeName;
 	}
-
-	/*public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
-	public String getSuffix() {
-		return suffix;
-	}
-
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}*/
 
 	public Address getAddress() {
 		return address;

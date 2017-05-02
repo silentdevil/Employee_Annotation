@@ -27,7 +27,7 @@ public class Contact implements java.io.Serializable, Comparable<Contact>
 {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="contact_id")
 	private long contactId;
 
