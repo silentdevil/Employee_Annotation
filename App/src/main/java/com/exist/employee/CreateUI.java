@@ -148,14 +148,20 @@ public class CreateUI {
 			System.out.println(contact.getContactId() + " " + contact);
 		});
 
-		int index = InputManager.getPositiveNumber("ID of Contact","");
+		long index = Long.valueOf(InputManager.getPositiveNumber("ID of Contact",""));
 		try {
 			contacts.remove(mapper.mapContactSingle(empService.getContactById(Long.valueOf(index)),employee));
-			empService.deleteElement(empService.getContactById(Long.valueOf(index)));
+			//ContactDto contact = new ContactDto().setContactId(index);
+			//contact = contacts.get(contact);
+			//System.out.println(contact.getContactType());
+			//System.out.println(contacts.remove(contact));
+			empService.deleteElement(empService.getContactById(index));
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			System.err.println("index not found");
 		}
+
+		System.out.println(contacts);
 		employee.setContacts(contacts);
 		return employee;
 	}

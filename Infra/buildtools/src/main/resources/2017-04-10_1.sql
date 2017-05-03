@@ -8,7 +8,7 @@ CREATE DATABASE mydatabase OWNER jim;
 
 CREATE SEQUENCE hibernate_sequence;
 CREATE TABLE employees (
-	employee_id int primary key,
+	employee_id serial primary key,
 
 	last_name varchar(30),
 	first_name varchar(30),
@@ -29,15 +29,16 @@ CREATE TABLE employees (
 );
 	
 CREATE TABLE contacts (
-	contact_id int,
+	contact_id serial,
 	employee_id int,
 	contact_type varchar(60),
 	contact_info varchar(60),
-	foreign key (employee_id) references employees(employee_id)
+	constraint fk_employee_id foreign key(employee_id) references employees(employee_id) 
+	on delete cascade
 );
 
 CREATE TABLE roles (
-	role_id int primary key,
+	role_id serial primary key,
 	role varchar(20)
 );
 

@@ -55,9 +55,9 @@ public class UpdateEmployeeScreen {
 						case "BACK":
 							return;
 					}
-
-				empService.updateElement(factoryService.createEmployee(employee));
 				showEmployeeDetails(employee);
+				InputManager.output("BREAK BEFORE UPDATE");
+				empService.updateElement(factoryService.createEmployee(employee));
 			}
 		} catch(Exception ex) {
 			System.out.println(ex.getMessage());

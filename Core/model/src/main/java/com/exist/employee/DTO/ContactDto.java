@@ -13,9 +13,10 @@ public class ContactDto implements Comparable<ContactDto>{
 	public long getContactId() {
 		return contactId;
 	}
-
-	public void setContactId(long contactId) {
+	
+	public ContactDto setContactId(long contactId) {
 		this.contactId = contactId;
+		return this;
 	}
 	
 	public long getEmployeeId() {
@@ -65,15 +66,15 @@ public class ContactDto implements Comparable<ContactDto>{
          return false;
 
         ContactDto add2 = (ContactDto) obj;
-
-         return this.contactType.equals(add2.getContactType()) && 
-         		this.contactInfo.equals(add2.getContactInfo());
+        //System.out.println((this.contactId == add2.getContactId()) + add2.getContactInfo());
+         return (this.contactType.equals(add2.getContactType()) && 
+         		this.contactInfo.equals(add2.getContactInfo()));
         
    }
 
    @Override
    public int hashCode() {
-        return java.util.Objects.hash(contactType,contactInfo);
+        return java.util.Objects.hash(contactType, contactInfo);
     }
 
 }

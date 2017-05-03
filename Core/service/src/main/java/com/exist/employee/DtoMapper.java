@@ -63,8 +63,7 @@ public class DtoMapper {
 	}
 
 	public ContactDto mapContactSingle(Contact c, EmployeeDto employee){
-		ContactDto contact = new ContactDto();
-		contact.setContactId(c.getContactId());
+		ContactDto contact = new ContactDto().setContactId(c.getContactId());
 		contact.setEmployee(employee);
 		contact.setContactType(c.getContactType());
 		contact.setContactInfo(c.getContactInfo());

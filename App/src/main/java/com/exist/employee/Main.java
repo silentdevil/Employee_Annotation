@@ -19,7 +19,6 @@ public class Main {
 		CreateUI createUI = updateEmployeeScreen.getCreateUI();
 		EmployeeService empServ = createUI.getFactoryService().getEmployeeService();
 		
-		System.out.println(empServ.getRoleById(1L).getEmployees());
 		String order = "";
 		List<Employee> list = empServ.getAllEmployees();
 		Consumer<Employee> consumer = System.out::println;

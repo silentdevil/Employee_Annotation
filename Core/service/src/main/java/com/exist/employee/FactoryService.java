@@ -18,8 +18,10 @@ public class FactoryService {
 		return mapper;
 	}
 
-	public Employee createEmployee(EmployeeDto employeeDto) {
-		Employee employee = empService.findEmployeeById(employeeDto.getEmployeeId());
+	public Employee createEmployee(EmployeeDto employeeDto) throws Exception {
+		System.out.println(employeeDto.getEmployeeId() + "FactoryService:22");
+		Employee employee = empService.findEmployeeById(3L);
+		System.out.println(employee.getEmployeeName());
 		if(employee == null)
 			employee = new Employee();
 		Name employeeName = new Name();
@@ -64,6 +66,7 @@ public class FactoryService {
 		Set<Contact> contacts = employee.getContacts();
 		if(contacts == null)
 			contacts = new TreeSet<>();
+		contacts.clear();
 		System.out.println("printed from FactoryService.createContacts" + employeeDto.getContacts());
 		try {
 			for(ContactDto c: employeeDto.getContacts()) {

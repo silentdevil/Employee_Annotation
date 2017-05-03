@@ -33,10 +33,8 @@ public class Contact implements java.io.Serializable, Comparable<Contact>
 
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="employee_id")
+	@JoinColumn(name="employee_id", nullable = false)
 	private Employee employee;
-
-
 
 	@Column(name="contact_type")
 	private String contactType;
@@ -105,6 +103,7 @@ public class Contact implements java.io.Serializable, Comparable<Contact>
 
 }
 
+package com.exist.employee;
 enum ContactType {
 	EMAIL(1,"EMAIL"),
 	MOBILE(2,"MOBILE"),

@@ -49,7 +49,7 @@ public class Dao {
       T t = null;
       try {
 	       t = (T) session.get(type, id);
-          InputManager.output(t.toString());
+         
           session.getTransaction().commit();
           session.close();
       } catch(Exception ex) {
