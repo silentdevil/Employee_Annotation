@@ -20,8 +20,8 @@ public class FactoryService {
 
 	public Employee createEmployee(EmployeeDto employeeDto) throws Exception {
 		System.out.println(employeeDto.getEmployeeId() + "FactoryService:22");
-		Employee employee = empService.findEmployeeById(3L);
-		System.out.println(employee.getEmployeeName());
+		Employee employee = empService.getElement(Employee.class,employeeDto.getEmployeeId());
+			InputManager.output(employee.getEmployeeName().toString());
 		if(employee == null)
 			employee = new Employee();
 		Name employeeName = new Name();
@@ -74,7 +74,7 @@ public class FactoryService {
 				contact.setEmployee(employee);
 				contact.setContactType(c.getContactType());
 				contact.setContactInfo(c.getContactInfo());
-				contacts.add(contact);
+				System.out.println(contacts.add(contact) + contact.toString());
 			}
 		} catch(Exception ex) {
 			System.out.println("Null contact passed");

@@ -103,7 +103,6 @@ public class Contact implements java.io.Serializable, Comparable<Contact>
 
 }
 
-package com.exist.employee;
 enum ContactType {
 	EMAIL(1,"EMAIL"),
 	MOBILE(2,"MOBILE"),

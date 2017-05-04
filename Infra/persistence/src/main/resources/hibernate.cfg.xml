@@ -21,6 +21,7 @@
 
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
+		<property name="hibernate.default_schema">public</property>
 	
 		<mapping class="com.exist.employee.Employee"/>
 		<mapping class="com.exist.employee.Role"/>

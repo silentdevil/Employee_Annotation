@@ -19,7 +19,6 @@ public class Dao {
 
 
     public Session beginTransaction() {
-      InputManager.output("beginTransaction");
        statistics.setStatisticsEnabled(true);
       Session session = sessionFactory.openSession();
         if(!session.getTransaction().isActive())
@@ -45,7 +44,6 @@ public class Dao {
     public <T> T get(final Class<T> type, final Long id){
       Session session = HibernateUtil.getSessionFactory().openSession();
       session.beginTransaction();
-      InputManager.output("getWithId");
       T t = null;
       try {
 	       t = (T) session.get(type, id);

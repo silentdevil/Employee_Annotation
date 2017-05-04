@@ -34,11 +34,13 @@ public class UpdateEmployeeScreen {
 
 			EmployeeDto employee = mapper.mapEmployeeDto(empService.getElement(Employee.class, 
 							Long.valueOf(InputManager.getPositiveNumber("Employee ID","EMPTY_NOT_ALLOWED"))));
+			if(employee == null)
+				InputManager.output("EMPLOYEE NULL:UPDATE:38");
 			showEmployeeDetails(employee);
 			OUTER:
 			while(true) {
 
-				String cmd = InputManager.enterString("Action: ADDROLE, DELROLE, ADDCONTACT, DELCONTACT, BACK", "EMPTY_NOT_ALLOWED");
+				String cmd = InputManager.enterString("Action: ADDROLE, DELROLE, ADDCONTACT, DELCONTACT, UPDATECONTACT, BACK", "EMPTY_NOT_ALLOWED");
 					switch(cmd) {
 						case "ADDROLE":
 							employee = createUI.addEmployeeRole(employee);
@@ -51,6 +53,9 @@ public class UpdateEmployeeScreen {
 							break;
 						case "DELCONTACT":
 							employee = createUI.delEmployeeContact(employee);
+							break;
+						case "UPDATECONTACT":
+							employee = createUI.updateEmployeeContact(employee);
 							break;
 						case "BACK":
 							return;
@@ -81,6 +86,7 @@ public class UpdateEmployeeScreen {
 			System.out.println("Roles: " + employee.getRoles());
 		
 		} catch(Exception ex) {
+			ex.printStackTrace();
 			throw new Exception("Cannot find employee");
 		}
 	}
@@ -93,16 +99,18 @@ public class UpdateEmployeeScreen {
 			System.out.print("\033\143");
 			empService.getAllRoles().forEach(System.out::println);
 
-			System.out.println("\nWHAT TO DO [ADDROLE,DELETEROLE,BACK]");
+			System.out.println("\nWHAT TO DO [ADDROLE,UPDATEROLE,DELETEROLE,BACK]");
 			String action = InputManager.enterString("Action","EMPTY_NOT_ALLOWED");
 
 			switch(action.toUpperCase()) {
 				case "ADDROLE":
-					createUI.createRole(empService);
+					createUI.createRole();
 					break;
 				case "DELETEROLE":
-					createUI.deleteRole(empService);
+					createUI.deleteRole();
 					break;
+				case "UPDATEROLE":
+					createUI.updateRole();
 				case "BACK": 
 					break OUTER;
 			} 

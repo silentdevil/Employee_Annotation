@@ -140,6 +140,54 @@ public class CreateUI {
 		return employee;
 	}
 
+	public EmployeeDto updateEmployeeContact(EmployeeDto employee) throws Exception {
+		//Set<ContactDto> contacts = employee.getContacts();
+		List<ContactDto> contacts = new ArrayList<>(employee.getContacts());
+		/*contacts.forEach( contact -> {
+			System.out.println(contact.getContactId() + " " + contact);
+		});*/
+		for(int i = 1; i < contacts.size() + 1; i++) {
+			System.out.println(i + " " + contacts.get(i - 1).toString());
+		}
+
+		//long index = Long.valueOf(InputManager.getPositiveNumber("ID of Contact",""));
+		ContactDto contact = contacts.get(InputManager.getPositiveNumber("Index of Contact","") - 1);
+		try {
+			//ContactDto contact = mapper.mapContactSingle(empService.getContactById(Long.valueOf(index)),employee);
+			String string = "";
+			switch(contact.getContactType()) {
+				case "EMAIL": {
+					string = InputManager.enterString("Email","");
+					string = RegexUtils.isValidEmail(string) ? string : "";
+					System.out.print((RegexUtils.isValidEmail(string)) ? "":"Not a valid email\n");
+					break;
+				} case "MOBILE": {
+					string = InputManager.enterString("Mobile  [XXXX-XXX-XXXX]","");
+					string = RegexUtils.isValidMobile(string) ? string : "";
+					System.out.print((RegexUtils.isValidMobile(string)) ? "":"Not a valid mobile\n");
+					break;
+				} case "LANDLINE": {
+					string = InputManager.enterString("Landline  [XXX-XXXX]","");
+					string = RegexUtils.isValidLandline(string) ? string : "";
+					System.out.print((RegexUtils.isValidLandline(string)) ? "":"Not a valid mobile\n");
+					break;
+				} default: {
+					break;
+				}
+			}
+
+			if(contact.getContactInfo() != null && !contact.getContactInfo().isEmpty())
+				contact.setContactInfo(string);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			System.err.println("index not found");
+		}
+
+		System.out.println(contacts);
+		employee.setContacts(new TreeSet<>(contacts));
+		return employee;
+	}
+
 	public EmployeeDto delEmployeeContact(EmployeeDto employee) throws Exception {
 		System.out.print("\033\143");
 		//List<ContactDto> contacts = new ArrayList<>(employee.getContacts());
@@ -155,7 +203,7 @@ public class CreateUI {
 			//contact = contacts.get(contact);
 			//System.out.println(contact.getContactType());
 			//System.out.println(contacts.remove(contact));
-			empService.deleteElement(empService.getContactById(index));
+			//empService.deleteElement(empService.getContactById(index));
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			System.err.println("index not found");
@@ -167,7 +215,7 @@ public class CreateUI {
 	}
 
 
-	public void createRole(EmployeeService empService) {
+	public void createRole() {
 		System.out.print("\033\143");
 		empService.getAllElements(Role.class).forEach(System.out::println);
 		RoleDto role = new RoleDto();
@@ -181,7 +229,7 @@ public class CreateUI {
 		}
 	}
 
-	public void deleteRole(EmployeeService empService) throws Exception {
+	public void deleteRole() throws Exception {
 		System.out.print("\033\143");
 		empService.getAllElements(Role.class).forEach(System.out::println);
 		RoleDto role = mapper.mapRoleDto(empService.getElement(Role.class, Long.valueOf(InputManager.getPositiveNumber("ROLE ID","EMPTY_NOT_ALLOWED"))));
@@ -190,6 +238,19 @@ public class CreateUI {
 			InputManager.output("Role " + role + " is sucessfully deleted");
 		} catch(Exception ex) {
 			InputManager.output("Role " + role + " is cannot be deleted");
+		}
+	}
+
+	public void updateRole() throws Exception {
+		System.out.print("\033\143");
+		empService.getAllElements(Role.class).forEach(System.out::println);
+		RoleDto role = mapper.mapRoleDto(empService.getElement(Role.class, Long.valueOf(InputManager.getPositiveNumber("ROLE ID","EMPTY_NOT_ALLOWED"))));
+		try{
+			role.setRole(InputManager.enterString("NEW ROLE NAME","EMPTY_NOT_ALLOWED"));
+			empService.updateElement(factoryService.createRole(role));
+			InputManager.output("Role " + role + " is sucessfully updated");
+		} catch(Exception ex) {
+			InputManager.output("Role " + role + " is cannot be updated");
 		}
 	}
 

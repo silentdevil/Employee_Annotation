@@ -1,10 +1,14 @@
 
 CREATE USER jim WITH PASSWORD 'ex1stgl0bal';
  
+DROP DATABASE IF EXISTS mydatabase;
+
 CREATE DATABASE mydatabase OWNER jim;
 
 \c mydatabase;
 
+drop schema public cascade;
+create schema public;
 
 CREATE SEQUENCE hibernate_sequence;
 CREATE TABLE employees (
@@ -49,6 +53,8 @@ CREATE TABLE employee_role (
 	constraint fk_employee_id foreign key(employee_id) references employees(employee_id),
 	constraint fk_role_id foreign key(role_id) references roles(role_id)
 );
+
+GRANT  USAGE   ON SCHEMA public  TO jim;
 
 GRANT SELECT, INSERT, UPDATE, DELETE
 ON ALL TABLES IN SCHEMA public 
