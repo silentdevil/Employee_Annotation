@@ -9,24 +9,17 @@ import java.util.stream.Collectors;
 public class UpdateEmployeeScreen {
 	
 	
-	private CreateUI createUI;
 	private FactoryService factoryService;
 	private EmployeeService empService;
 	private DtoMapper mapper;
 
 
-	public UpdateEmployeeScreen(CreateUI createUI) {
-		this.createUI = createUI;
-		factoryService = createUI.getFactoryService();
+	public UpdateEmployeeScreen(FactoryService factoryService) {
 		empService = factoryService.getEmployeeService();
 		mapper = factoryService.getMapper();
 	}
 
-	public CreateUI getCreateUI() {
-		return createUI;
-	}
-
-	public  void updateEmployee() throws Exception {
+	public void updateEmployee() throws Exception {
 		System.out.print("\033\143\n");
 		System.out.println("Edit Employee! Input the ID\n");
 		try {
@@ -40,32 +33,41 @@ public class UpdateEmployeeScreen {
 			OUTER:
 			while(true) {
 
-				String cmd = InputManager.enterString("Action: ADDROLE, DELROLE, ADDCONTACT, DELCONTACT, UPDATECONTACT, BACK", "EMPTY_NOT_ALLOWED");
+				String cmd = InputManager.enterString("Action: ADDROLE, DELROLE, ADDCONTACT, DELCONTACT, UPDATECONTACT, ,UPDATENAME, UPDATEADDRESS, BACK", "EMPTY_NOT_ALLOWED");
 					switch(cmd) {
 						case "ADDROLE":
-							employee = createUI.addEmployeeRole(employee);
+							employee = UpdateEmployeeService.addEmployeeRole(employee);
 							break;
 						case "DELROLE":
-							employee = createUI.deleteEmployeeRole(employee);
+							RoleDto role = EmployeeUI.pickRole(employee);
+							employee = UpdateEmployeeService.deleteEmployeeRole(employee,role);
 							break;
 						case "ADDCONTACT":
-							employee = createUI.addEmployeeContact(employee);
+							employee = UpdateEmployeeService.addEmployeeContact(employee);
 							break;
 						case "DELCONTACT":
-							employee = createUI.delEmployeeContact(employee);
+							ContactDto contact = EmployeeUI.pickContact(employee);
+							employee = UpdateEmployeeService.delEmployeeContact(employee, contact);
 							break;
 						case "UPDATECONTACT":
-							employee = createUI.updateEmployeeContact(employee);
+							contact = EmployeeUI.pickContact(employee);
+							UpdateEmployeeService.updateContact(contact);
+							break;
+						case "UPDATENAME":
+							employee = UpdateEmployeeService.updateEmployeeName(employee);
+							break;
+						case "UPDATEADDRESS":
+							employee = UpdateEmployeeService.updateEmployeeAddress(employee);
 							break;
 						case "BACK":
 							return;
 					}
 				showEmployeeDetails(employee);
 				InputManager.output("BREAK BEFORE UPDATE");
-				empService.updateElement(factoryService.createEmployee(employee));
+				
 			}
 		} catch(Exception ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 			Thread.sleep(2000);
 			
 		}	
@@ -91,29 +93,4 @@ public class UpdateEmployeeScreen {
 		}
 	}
 
-	public void roleScreen() throws Exception {
-		System.out.print("\033\143");
-
-		OUTER:
-		while(true) {
-			System.out.print("\033\143");
-			empService.getAllRoles().forEach(System.out::println);
-
-			System.out.println("\nWHAT TO DO [ADDROLE,UPDATEROLE,DELETEROLE,BACK]");
-			String action = InputManager.enterString("Action","EMPTY_NOT_ALLOWED");
-
-			switch(action.toUpperCase()) {
-				case "ADDROLE":
-					createUI.createRole();
-					break;
-				case "DELETEROLE":
-					createUI.deleteRole();
-					break;
-				case "UPDATEROLE":
-					createUI.updateRole();
-				case "BACK": 
-					break OUTER;
-			} 
-		}
-	}
 }

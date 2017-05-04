@@ -50,7 +50,7 @@ public class NameDto {
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(lastName + "," + firstName + " " + middleName + " " + suffix);
+		sb.append(title + " " + lastName + "," + firstName + " " + middleName + " " + suffix);
 		return sb.toString();
 	}
 

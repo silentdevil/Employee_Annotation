@@ -12,12 +12,15 @@ public class Main {
 	public static Logger logger = LoggerFactory.getLogger("org.hibernate");
 	public static void main(String[] args) throws Exception {
 
-	
-		UpdateEmployeeScreen updateEmployeeScreen = new UpdateEmployeeScreen(new CreateUI(
-			new FactoryService(new EmployeeService(), new DtoMapper())));
+		FactoryService factoryService = new FactoryService(new EmployeeService(), new DtoMapper());
+		CreateUI createUI = new CreateUI(factoryService);
+		EmployeeService empServ = factoryService.getEmployeeService();
 
-		CreateUI createUI = updateEmployeeScreen.getCreateUI();
-		EmployeeService empServ = createUI.getFactoryService().getEmployeeService();
+		createUI.getEmployeeUI();
+		createUI.getRoleUI();
+
+
+
 		
 		String order = "";
 		List<Employee> list = empServ.getAllEmployees();
@@ -31,7 +34,7 @@ public class Main {
 			try {
 				switch(cmd.toUpperCase()) {
 					case "ADDEMP":
-						createUI.createEmployee();
+						createUI.getEmployeeUI().createEmployee();
 						list = empServ.getAllEmployees();
 						break;
 						
@@ -41,10 +44,10 @@ public class Main {
 						break;
 						
 					case "EDITEMP":
-						updateEmployeeScreen.updateEmployee();
+						createUI.getUpdateEmployeeScreen().updateEmployee();
 						break;
 					case "MODIFYROLES":
-						updateEmployeeScreen.roleScreen();
+						createUI.getRoleUI().roleScreen();
 						break;
 					case "SORT_GWA":
 						list = empServ.getAllEmployees("gwa");

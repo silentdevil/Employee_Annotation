@@ -34,6 +34,13 @@ public class Dao {
       session.close();
     }
 
+    public <T> void saveOrUpdate(final T o){
+      Session session = beginTransaction();
+      session.saveOrUpdate(o);
+      session.getTransaction().commit();
+      session.close();
+    }
+
     public void delete(final Object object){
       Session session = beginTransaction();
       session.delete(object);

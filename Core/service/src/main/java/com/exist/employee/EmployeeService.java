@@ -68,6 +68,10 @@ public class EmployeeService {
 		dao.update(e);
 	}
 
+	public <E> void saveOrUpdate(E e){
+		dao.saveOrUpdate(e);
+	}
+
 
 /*
 	public boolean isRoleDeletable(Role role) {

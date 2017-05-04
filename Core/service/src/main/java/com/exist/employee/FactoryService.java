@@ -18,15 +18,23 @@ public class FactoryService {
 		return mapper;
 	}
 
-	public Employee createEmployee(EmployeeDto employeeDto) throws Exception {
-		System.out.println(employeeDto.getEmployeeId() + "FactoryService:22");
+	public Employee createEmployee(EmployeeDto employeeDto) {
+		//System.out.println(employeeDto.getEmployeeId() + "FactoryService:22");
 		Employee employee = empService.getElement(Employee.class,employeeDto.getEmployeeId());
-			InputManager.output(employee.getEmployeeName().toString());
+			//InputManager.output(employee.getEmployeeName().toString());
 		if(employee == null)
 			employee = new Employee();
-		Name employeeName = new Name();
-		NameDto nameDto = employeeDto.getEmployeeName();
-		try {
+		Name employeeName;// = new Name();
+		NameDto nameDto;// = employeeDto.getEmployeeName();
+		try{
+			employee = empService.getElement(Employee.class,employeeDto.getEmployeeId());
+			//InputManager.output(employee.getEmployeeName().toString());
+			if(employee == null)
+				employee = new Employee();
+
+			employeeName = new Name();
+			nameDto = employeeDto.getEmployeeName();
+		
 			employee.setEmployeeId(employeeDto.getEmployeeId());
 			
 			employeeName.setLastName(nameDto.getLastName());
@@ -44,7 +52,8 @@ public class FactoryService {
 			System.out.println(contacts);
 			employee.setContacts(contacts);
 			employee.setRoles(createRoleSet(employeeDto.getRoles()));
-		
+			
+			empService.saveOrUpdate(employee);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -63,6 +72,7 @@ public class FactoryService {
 	}
 	
 	public Set<Contact> createContacts(EmployeeDto employeeDto, Employee employee) throws Exception {
+		InputManager.output("PRINTED FROM CREATE CONTACTS");
 		Set<Contact> contacts = employee.getContacts();
 		if(contacts == null)
 			contacts = new TreeSet<>();
