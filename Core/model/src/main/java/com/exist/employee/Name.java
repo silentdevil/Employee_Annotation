@@ -5,7 +5,7 @@ import javax.persistence.Column;
 import org.hibernate.annotations.*;
 
 @Embeddable
-public class Name{
+public class Name implements Comparable<Name> {
 
 	@Column(name = "last_name")
 	private String lastName = "";
@@ -58,6 +58,16 @@ public class Name{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public int compareTo(Name obj) {
+		return (lastName + firstName + middleName + suffix)
+			.compareTo(obj.getLastName() + obj.getFirstName() + obj.getMiddleName() + obj.getSuffix());
+	}
+
+	@Override
+   public int hashCode() {
+        return java.util.Objects.hash(lastName,firstName,middleName,suffix);
+   }
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

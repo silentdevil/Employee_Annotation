@@ -8,6 +8,7 @@ public class EmployeeUI {
 	private static DtoMapper mapper;
 
 	public EmployeeUI(FactoryService factoryService) {
+		this.factoryService = factoryService;
 		empService = factoryService.getEmployeeService();
 		mapper = factoryService.getMapper();
 	}
@@ -25,10 +26,8 @@ public class EmployeeUI {
 			employee.setDateHired(DatePicker.parseDate(InputManager.enterString("Hire Date [YYYY-MM-DD]", id),id));
 			employee.setCurrentlyHired(InputManager.getBoolean("CURRENTLY HIRED"));
 			employee.setContacts(createContacts(employee));
-			employee.getRoles().add(setRoleToEmployee(employee));
-		
-			empService.saveElement(factoryService.createEmployee(employee));
-			
+			employee.setRoles(setRoleToEmployee(employee));
+			factoryService.createEmployee(employee);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			throw new Exception("Cannot create employee");
@@ -51,48 +50,62 @@ public class EmployeeUI {
 	public static AddressDto createAddressDto() throws Exception {
 		System.out.println("Enter ADDRESS!");
 		AddressDto address = new AddressDto();
-			String id = "EMPTY_NOT_ALLOWED";
-			address.setStreetNo(InputManager.getPositiveNumber("Street no","EMPTY_NOT_ALLOWED"));
-			address.setStreet(InputManager.enterString("Street","EMPTY_NOT_ALLOWED").toUpperCase());
-			address.setBrgy(InputManager.enterString("Brgy", "EMPTY_NOT_ALLOWED").toUpperCase());
-			address.setCity(InputManager.enterString("City", "EMPTY_NOT_ALLOWED").toUpperCase());
-			address.setZipcode(InputManager.enterString("Zipcode","EMPTY_NOT_ALLOWED").toUpperCase());
-		
-			return address;
-		
+		String id = "EMPTY_NOT_ALLOWED";
+		address.setStreetNo(InputManager.getPositiveNumber("Street no","EMPTY_NOT_ALLOWED"));
+		address.setStreet(InputManager.enterString("Street","EMPTY_NOT_ALLOWED").toUpperCase());
+		address.setBrgy(InputManager.enterString("Brgy", "EMPTY_NOT_ALLOWED").toUpperCase());
+		address.setCity(InputManager.enterString("City", "EMPTY_NOT_ALLOWED").toUpperCase());
+		address.setZipcode(InputManager.enterString("Zipcode","EMPTY_NOT_ALLOWED").toUpperCase());
+	
+		return address;
 	}
 	
 	public static Set<ContactDto> createContacts(EmployeeDto employee) throws Exception {
 		Set<ContactDto> contacts = employee.getContacts();
 		if(contacts == null)
 			contacts = new TreeSet<>();
-		//employee.setContacts(contacts);
-		ContactDto contact = new ContactDto();
-		contact.setEmployee(employee);
-		String string = "";
-		System.out.println("What to do: ");
-				for(int i = 1; i <= ContactType.SIZE; i++) {
-					System.out.print(ContactType.valueOf(i) + "\t"); 
-				}
+		String addRole = "Y";
+		while(addRole.toUpperCase().equals("Y") || addRole.toUpperCase().equals("YES")) {	
+			System.out.println("What role: ");
 
-				System.out.println();
-				int choice = InputManager.getPositiveNumber("","");
-		contact.setContactType(ContactType.valueOf(choice).getMessage());
-		contact = UpdateEmployeeService.updateContact(contact);
-	
-		if(contact.getContactInfo() != null && !contact.getContactInfo().isEmpty())
-			contacts.add(contact);
+			ContactDto contact = new ContactDto();
+			contact.setEmployee(employee);
+			String string = "";
+			System.out.println("What contact type: ");
+					for(int i = 1; i <= ContactType.SIZE; i++) {
+						System.out.print(ContactType.valueOf(i) + "\t"); 
+					}
+
+					System.out.println();
+					int choice = InputManager.getPositiveNumber("","");
+			contact.setContactType(ContactType.valueOf(choice).getMessage());
+			contact = UpdateEmployeeService.updateContact(contact);
+		
+			if(contact.getContactInfo() != null && !contact.getContactInfo().isEmpty())
+				contacts.add(contact);
+
+			addRole = InputManager.enterString("Add contact? [Y/N]","");
+		}
+
 		return contacts;
 			//return contact.getContactInfo() == "" ? null : contact;
 	}
 
-	public static RoleDto setRoleToEmployee(EmployeeDto employee) throws Exception {
-		System.out.println("What role: ");
-		empService.getAllRoles();//.forEach(System.out::println);
-		//empService.getAllRoles().stream().filter(r ->!employee.getRoles().contains(mapper.mapRoleDto(r))).forEach(System.out::println);
-		RoleDto roleDto = mapper.mapRoleDto(empService.getElement(Role.class, Long.valueOf(InputManager.getPositiveNumber("ROLE","EMPTY_NOT_ALLOWED"))));
-		roleDto.getRole();
-		return roleDto;
+	public static Set<RoleDto> setRoleToEmployee(EmployeeDto employee) throws Exception {
+		
+		Set<RoleDto> roles = employee.getRoles();
+		List<Role> listRows = empService.getAllRoles();
+		String addRole = "Y";
+		while(addRole.toUpperCase().equals("Y") || addRole.toUpperCase().equals("YES")) {	
+			System.out.println("What role: ");
+			listRows.stream().filter(r ->!roles.contains(mapper.mapRoleDto(r))).forEach(System.out::println);
+			RoleDto roleDto = mapper.mapRoleDto(empService.getElement(Role.class, Long.valueOf(InputManager.getPositiveNumber("ROLE","EMPTY_NOT_ALLOWED"))));
+			roles.add(roleDto);
+			addRole = InputManager.enterString("Add role? [Y/N]","");
+		}
+
+
+		return roles;
 	}
 	public static RoleDto pickRole(EmployeeDto employee) throws Exception {
 		List<RoleDto> roles = new ArrayList<>(employee.getRoles());

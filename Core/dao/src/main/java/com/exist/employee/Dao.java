@@ -7,8 +7,10 @@ import org.hibernate.Session;
 import org.hibernate.Query;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Projections;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Property;
 import org.hibernate.stat.*;
 import org.slf4j.*;
 
@@ -81,22 +83,27 @@ public class Dao {
 
     public <T> List<T> getAll(final Class<T> type) {
       Session session = beginTransaction();
-	    Criteria criteria = session.createCriteria(type);
-  	  criteria.setCacheable(true);
-      criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+	    Criteria criteria = session.createCriteria(type)   
+                                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
       List<T> list = criteria.list();
       printStatistics(statistics);
       session.close();
       return list;
     }
 
-    public <T> List<T> getAll(final Class<T> type, String order) {
+    public <T> List getAll(final Class<T> type, String order) {
       Session session = beginTransaction();
 	  Criteria criteria = session.createCriteria(type);
 	  criteria.setCacheable(true);
-      List<T> list = criteria.addOrder(Order.asc(order)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+    criteria.setProjection(Projections.projectionList()
+                                      .add(Projections.property("employeeId"))
+                                      .add(Projections.property("employeeName"))
+                                      .add(Projections.property(order)))
+            .addOrder(Property.forName(order).asc());
+      List list = criteria.list();
+      printStatistics(statistics);
       session.close();
-       printStatistics(statistics);
+      
       return list;
     }
 

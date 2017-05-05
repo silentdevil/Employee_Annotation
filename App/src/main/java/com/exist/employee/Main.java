@@ -23,8 +23,8 @@ public class Main {
 
 		
 		String order = "";
-		List<Employee> list = empServ.getAllEmployees();
-		Consumer<Employee> consumer = System.out::println;
+		List list = empServ.getAllEmployees("employeeName");
+		Consumer<Object[]> consumer = e -> System.out.println(e[0] + " " + e[1] + "");
 		OUTER:
 		while(true) {
 			
@@ -35,12 +35,12 @@ public class Main {
 				switch(cmd.toUpperCase()) {
 					case "ADDEMP":
 						createUI.getEmployeeUI().createEmployee();
-						list = empServ.getAllEmployees();
+						list = empServ.getAllEmployees("employeeName");
 						break;
 						
 					case "DELEMP":
 						empServ.deleteElement(empServ.getElement(Employee.class,Long.valueOf(InputManager.getPositiveNumber("Employee ID","EMPTY_NOT_ALLOWED"))));
-						list = empServ.getAllEmployees();
+						list = empServ.getAllEmployees("employeeName");
 						break;
 						
 					case "EDITEMP":
@@ -51,21 +51,21 @@ public class Main {
 						break;
 					case "SORT_GWA":
 						list = empServ.getAllEmployees("gwa");
-						consumer = emp -> System.out.printf("%d\t%s %.2f\n",emp.getEmployeeId(),emp.getEmployeeName().toString(),emp.getGwa());
+						consumer = e -> System.out.println(e[0] + " " + e[1] + "" + e[2] + "");
 						break;
 					case "SORT_HIREDATE":
-						list = empServ.getAllEmployees("date_hired");
-						consumer = emp -> System.out.printf("%d\t%s %s\n",emp.getEmployeeId(),emp.getEmployeeName().toString(),emp.getDateHired());
+						list = empServ.getAllEmployees("dateHired");
+						consumer =e -> System.out.println(e[0] + " " + e[1] + "" + e[2] + "");
 						break;
 					case "SORT_LASTNAME":
-						list = empServ.getAllEmployees("last_name");
-						consumer = emp -> System.out.printf("%d\t%s\n",emp.getEmployeeId(),emp.getEmployeeName().toString());
+						list = empServ.getAllEmployees("employeeName");
+						consumer = e -> System.out.println(e[0] + " " + e[1] + "");
 						break;
 					case "EXIT":
 						break OUTER;
 					default:
 						consumer = System.out::println;
-						list = empServ.getAllEmployees();
+						list = empServ.getAllEmployees("");
 				}
 			} catch (Exception ex) {
 				logger.info("Exception occured", ex);

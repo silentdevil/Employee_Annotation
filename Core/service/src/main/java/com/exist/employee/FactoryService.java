@@ -18,7 +18,7 @@ public class FactoryService {
 		return mapper;
 	}
 
-	public Employee createEmployee(EmployeeDto employeeDto) {
+	public void createEmployee(EmployeeDto employeeDto) {
 		//System.out.println(employeeDto.getEmployeeId() + "FactoryService:22");
 		Employee employee = empService.getElement(Employee.class,employeeDto.getEmployeeId());
 			//InputManager.output(employee.getEmployeeName().toString());
@@ -57,7 +57,7 @@ public class FactoryService {
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		return employee;
+		//return employee;
 	}
 	
 	public  Address createAddress(AddressDto addressDto) throws Exception {

@@ -5,9 +5,9 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 public class UpdateEmployeeScreen {
-	
 	
 	private FactoryService factoryService;
 	private EmployeeService empService;
@@ -15,6 +15,7 @@ public class UpdateEmployeeScreen {
 
 
 	public UpdateEmployeeScreen(FactoryService factoryService) {
+		this.factoryService = factoryService;
 		empService = factoryService.getEmployeeService();
 		mapper = factoryService.getMapper();
 	}
@@ -23,7 +24,7 @@ public class UpdateEmployeeScreen {
 		System.out.print("\033\143\n");
 		System.out.println("Edit Employee! Input the ID\n");
 		try {
-			empService.getAllEmployees().forEach(System.out::println);
+			empService.getAllEmployees("employeeName").forEach((Consumer<Object[]>)e -> System.out.println(e[0] + " " + e[1] + ""));
 
 			EmployeeDto employee = mapper.mapEmployeeDto(empService.getElement(Employee.class, 
 							Long.valueOf(InputManager.getPositiveNumber("Employee ID","EMPTY_NOT_ALLOWED"))));
@@ -64,7 +65,7 @@ public class UpdateEmployeeScreen {
 					}
 				showEmployeeDetails(employee);
 				InputManager.output("BREAK BEFORE UPDATE");
-				
+				factoryService.createEmployee(employee);
 			}
 		} catch(Exception ex) {
 			ex.printStackTrace();

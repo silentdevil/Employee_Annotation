@@ -6,8 +6,7 @@ public class UpdateEmployeeService {
 	public static EmployeeDto addEmployeeRole(EmployeeDto employee) throws Exception {
 		try {
 			Set<RoleDto> roles = employee.getRoles();
-			roles.add(EmployeeUI.setRoleToEmployee(employee));	
-			employee.setRoles(roles);
+			employee.setRoles(EmployeeUI.setRoleToEmployee(employee));
 			return employee;
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -63,11 +62,6 @@ public class UpdateEmployeeService {
 		}
 		System.out.println("printed from UES:63" + contact);
 		return contact;
-	}
-
-	public static void updateEmployeeContact(EmployeeDto employee, ContactDto contact) throws Exception {
-		//Set<ContactDto> contacts = employee.getContacts();
-		contact = updateContact(contact);
 	}
 
 	public static EmployeeDto delEmployeeContact(EmployeeDto employee, ContactDto contact) throws Exception {
